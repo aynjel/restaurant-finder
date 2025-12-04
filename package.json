@@ -15,6 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "@api/fsq-developers-places": "file:.api/apis/fsq-developers-places",
+    "@google/genai": "^1.31.0",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "openai": "^6.9.1"

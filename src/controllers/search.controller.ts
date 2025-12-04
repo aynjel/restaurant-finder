@@ -2,18 +2,19 @@ import fsqDevelopersPlaces from '@api/fsq-developers-places';
 import type { NextFunction, Request, Response } from 'express';
 import config from '../config/config';
 import { FoursquareResponse } from '../models/apiResponse.model';
-import {
-  cleanApiResponse,
-  validateBoolean,
-  validatePrice,
-} from '../utils/helpers';
+import { extractParameters } from '../services/llm.service';
+import { cleanApiResponse } from '../utils/helpers';
 
 const REQUIRED_CODE = config.requiredCode;
 const FOURSQUARE_API_KEY: string = config.foursquareApiKey;
 
-export async function search(req: Request, res: Response, next: NextFunction) {
+export async function search(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<Response> {
   try {
-    const { code, message, near } = req.query;
+    const { code, message } = req.query;
 
     // Validate code parameter
     if (!code || code !== REQUIRED_CODE) {
@@ -35,28 +36,15 @@ export async function search(req: Request, res: Response, next: NextFunction) {
       });
     }
 
-    // Validate near parameter
-    if (!near || typeof near !== 'string' || near.trim().length === 0) {
-      return res.status(400).json({
-        error: 'Bad Request',
-        message: 'Near parameter is required and must be a non-empty string',
-      });
-    }
-
-    const { price, open_now } = req.query;
-
-    const validatedOpenNow = validateBoolean(open_now as string);
-    const validatedPrice = validatePrice(price as string);
+    const { near, price, open_now } = await extractParameters(message);
 
     const response = await fsqDevelopersPlaces.placeSearch({
       'X-Places-Api-Version': '2025-06-17',
       Authorization: `Bearer ${FOURSQUARE_API_KEY}`,
       query: message,
-      near: near,
-      open_now: validatedOpenNow,
-      min_price: validatedPrice,
-      limit: 10,
-      sort: 'DISTANCE',
+      near,
+      open_now,
+      min_price: price,
     });
 
     const cleanedResponse = cleanApiResponse(
@@ -71,6 +59,9 @@ export async function search(req: Request, res: Response, next: NextFunction) {
         ? error.message
         : 'Failed to search for restaurants';
     next(new Error(errorMessage));
-    return;
+    return res.status(500).json({
+      error: 'Internal Server Error',
+      message: errorMessage,
+    });
   }
 }

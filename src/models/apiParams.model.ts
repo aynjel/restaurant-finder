@@ -1,13 +1,6 @@
-export interface StructuredCommand {
-  action: string;
-  parameters: FoursquareSearchParams;
-}
-
-export interface FoursquareSearchParams {
+export interface LLMConvertedParams {
   query: string;
   near: string;
-  price: string;
+  price: number;
   open_now: boolean;
-  min_rating: number;
-  cuisine: string;
 }

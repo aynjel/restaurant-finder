@@ -4,18 +4,6 @@ import {
   Result,
 } from '../models/apiResponse.model';
 
-export function validateBoolean(
-  value: string | undefined,
-): boolean | undefined {
-  if (value === undefined) return undefined;
-  return value === 'true';
-}
-
-export function validatePrice(value: string | undefined): number | undefined {
-  if (value === undefined) return undefined;
-  return parseInt(value);
-}
-
 export function cleanApiResponse(response: any): CleanedApiResponse[] {
   return response.results.map((result: Result) => ({
     name: result.name,
