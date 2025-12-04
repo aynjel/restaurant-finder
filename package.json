@@ -14,8 +14,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@api/fsq-developers-places": "file:.api/apis/fsq-developers-places",
     "dotenv": "^17.2.3",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "openai": "^6.9.1"
   },
   "devDependencies": {
     "@types/express": "^5.0.5",

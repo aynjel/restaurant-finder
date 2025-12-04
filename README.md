@@ -2,6 +2,10 @@
 
 A RESTful API built with Node.js, Express, and TypeScript for finding and managing restaurants.
 
+## 🌐 Live Demo
+
+**Deployed on Vercel:** [https://restaurant-finder-jade.vercel.app/](https://restaurant-finder-jade.vercel.app/)
+
 ## 🚀 Features
 
 - RESTful API architecture
@@ -57,7 +61,15 @@ Or create it manually with the following content:
 ```env
 # Server Configuration
 PORT=3000
-NODE_ENV=development
+
+# API Keys (Required for restaurant search functionality)
+FOURSQUARE_API_KEY=your_foursquare_api_key_here
+
+# Optional: API Keys
+OPENAI_API_KEY=your_openai_api_key_here
+
+# Optional: Access Code (defaults to 'pioneerdevai')
+REQUIRED_CODE=pioneerdevai
 ```
 
 ### 2. Configure Environment Variables
@@ -65,7 +77,14 @@ NODE_ENV=development
 Edit the `.env` file and set your configuration:
 
 - `PORT` - Server port (default: 3000)
-- `NODE_ENV` - Environment mode: `development` or `production`
+- `FOURSQUARE_API_KEY` - Your Foursquare Places API key (required for restaurant search)
+- `OPENAI_API_KEY` - Your OpenAI API key (optional, currently not used in the implementation)
+- `REQUIRED_CODE` - Access code for API authentication (optional, defaults to `pioneerdevai`)
+
+**Getting API Keys:**
+
+- **Foursquare API Key:** Sign up at [Foursquare Developer Portal](https://developer.foursquare.com/) and create an API key
+- **OpenAI API Key:** Sign up at [OpenAI Platform](https://platform.openai.com/) and create an API key (optional)
 
 ## 🏃 Running the Application
 
@@ -114,8 +133,16 @@ restaurant-finder/
 │   ├── server.ts              # Server entry point
 │   ├── config/
 │   │   └── config.ts          # Environment configuration
-│   └── middlewares/
-│       └── errorHandler.ts    # Error handling middleware
+│   ├── controllers/
+│   │   └── restaurant.controller.ts  # Restaurant search controller
+│   ├── middlewares/
+│   │   └── errorHandler.middleware.ts  # Error handling middleware
+│   ├── models/
+│   │   ├── apiParams.model.ts      # API parameters type definitions
+│   │   └── apiResponse.model.ts    # API response type definitions
+│   └── utils/
+│       └── helpers.ts         # Utility functions (validation, data cleaning)
+├── .api/                      # Generated API client (Foursquare Places API)
 ├── dist/                      # Compiled JavaScript (generated)
 ├── node_modules/              # Dependencies (generated)
 ├── .env                       # Environment variables (create this)
@@ -147,8 +174,83 @@ Check if the server is running.
 **Example:**
 
 ```bash
+# Local development
 curl http://localhost:3000/api/status
+
+# Production (Vercel)
+curl https://restaurant-finder-jade.vercel.app/api/status
 ```
+
+### Restaurant Search
+
+**GET** `/api/restaurants`
+
+Search for restaurants using the Foursquare Places API. This endpoint queries the Foursquare Places database to find restaurants matching your search criteria.
+
+**Query Parameters:**
+
+- `message` (required) - Search query term (e.g., "sushi", "pizza", "italian restaurant")
+- `near` (required) - Location to search near (e.g., "downtown Los Angeles", "New York", "San Francisco")
+- `code` (required) - Access code: `pioneerdevai` (or the value set in `REQUIRED_CODE` environment variable)
+- `price` (optional) - Price level filter: `1` (cheap), `2` (moderate), `3` (expensive), `4` (very expensive)
+- `open_now` (optional) - Filter for restaurants currently open: `true` or `false`
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "total_results": 1,
+  "data": [
+    {
+      "name": "Sushi Restaurant Name",
+      "website": "https://example.com",
+      "location": {
+        "address": "123 Main St",
+        "locality": "Los Angeles",
+        "region": "CA",
+        "postcode": "90001",
+        "country": "US",
+        "formatted_address": "123 Main St, Los Angeles, CA 90001"
+      },
+      "social_media": {
+        "facebook_id": "123456789"
+      },
+      "distance": 500,
+      "categories": ["Japanese Restaurant", "Sushi Restaurant"],
+      "email": "info@example.com",
+      "tel": "+1234567890"
+    }
+  ]
+}
+```
+
+**Example:**
+
+```bash
+# Local development - Basic search
+curl "http://localhost:3000/api/restaurants?message=sushi&near=downtown%20Los%20Angeles&code=pioneerdevai"
+
+# Local development - With optional filters
+curl "http://localhost:3000/api/restaurants?message=pizza&near=New%20York&code=pioneerdevai&price=2&open_now=true"
+
+# Production (Vercel)
+curl "https://restaurant-finder-jade.vercel.app/api/restaurants?message=sushi&near=downtown%20Los%20Angeles&code=pioneerdevai"
+```
+
+**Browser Example:**
+
+You can also access this endpoint directly in your browser:
+
+```
+https://restaurant-finder-jade.vercel.app/api/restaurants?message=sushi&near=downtown%20Los%20Angeles&code=pioneerdevai
+```
+
+**Error Responses:**
+
+- **401 Unauthorized** - Invalid or missing `code` parameter
+- **400 Bad Request** - Missing or invalid `message` or `near` parameter
+- **500 Internal Server Error** - Server error (check API keys configuration)
 
 ## 🧪 Development Guidelines
 
@@ -190,6 +292,14 @@ If you encounter module resolution errors:
 1. Delete `node_modules` and `package-lock.json`
 2. Run `npm install` again
 3. Ensure TypeScript is properly configured in `tsconfig.json`
+
+### ES Module Import Errors
+
+If you encounter `ERR_UNSUPPORTED_DIR_IMPORT` errors after building:
+
+1. This may occur with generated API client files in the `.api/` directory
+2. Ensure imports use explicit file paths (e.g., `'api/dist/core/index.js'` instead of `'api/dist/core'`)
+3. Rebuild the project: `npm run build`
 
 ### TypeScript Compilation Errors
 
