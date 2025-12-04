@@ -198,31 +198,27 @@ Search for restaurants using the Foursquare Places API. This endpoint queries th
 **Response:**
 
 ```json
-{
-  "success": true,
-  "total_results": 1,
-  "data": [
-    {
-      "name": "Sushi Restaurant Name",
-      "website": "https://example.com",
-      "location": {
-        "address": "123 Main St",
-        "locality": "Los Angeles",
-        "region": "CA",
-        "postcode": "90001",
-        "country": "US",
-        "formatted_address": "123 Main St, Los Angeles, CA 90001"
-      },
-      "social_media": {
-        "facebook_id": "123456789"
-      },
-      "distance": 500,
-      "categories": ["Japanese Restaurant", "Sushi Restaurant"],
-      "email": "info@example.com",
-      "tel": "+1234567890"
-    }
-  ]
-}
+[
+  {
+    "name": "Sushi Restaurant Name",
+    "website": "https://example.com",
+    "location": {
+      "address": "123 Main St",
+      "locality": "Los Angeles",
+      "region": "CA",
+      "postcode": "90001",
+      "country": "US",
+      "formatted_address": "123 Main St, Los Angeles, CA 90001"
+    },
+    "social_media": {
+      "facebook_id": "123456789"
+    },
+    "distance": 500,
+    "categories": ["Japanese Restaurant", "Sushi Restaurant"],
+    "email": "info@example.com",
+    "tel": "+1234567890"
+  }
+]
 ```
 
 **Example:**

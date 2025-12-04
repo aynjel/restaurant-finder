@@ -13,7 +13,7 @@ const config: Config = {
   port: Number(process.env.PORT) || 3000,
   foursquareApiKey: process.env.FOURSQUARE_API_KEY || '',
   openaiApiKey: process.env.OPENAI_API_KEY || '',
-  requiredCode: process.env.REQUIRED_CODE || 'pioneerdevai',
+  requiredCode: process.env.REQUIRED_CODE || '',
 };
 
 export default config;

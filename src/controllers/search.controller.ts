@@ -55,18 +55,15 @@ export async function search(req: Request, res: Response, next: NextFunction) {
       near: near,
       open_now: validatedOpenNow,
       min_price: validatedPrice,
-      max_price: validatedPrice,
+      limit: 10,
+      sort: 'DISTANCE',
     });
 
     const cleanedResponse = cleanApiResponse(
       response.data as unknown as FoursquareResponse,
     );
 
-    return res.status(200).json({
-      success: true,
-      total_results: cleanedResponse.length,
-      data: cleanedResponse,
-    });
+    return res.status(200).json(cleanedResponse);
   } catch (error) {
     console.error('Restaurant search error:', error);
     const errorMessage =
