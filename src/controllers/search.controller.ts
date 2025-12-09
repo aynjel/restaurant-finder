@@ -6,7 +6,6 @@ import { extractParameters } from '../services/llm.service';
 import { cleanApiResponse } from '../utils/helpers';
 import { withRetry } from '../utils/retry.util';
 
-const REQUIRED_CODE = config.requiredCode;
 const FOURSQUARE_API_KEY: string = config.foursquareApiKey;
 
 export async function search(
@@ -15,14 +14,7 @@ export async function search(
   next: NextFunction,
 ): Promise<Response> {
   try {
-    const { code, message } = req.query;
-
-    if (!code || code !== REQUIRED_CODE) {
-      return res.status(401).json({
-        error: 'Unauthorized',
-        message: 'Invalid or missing code parameter',
-      });
-    }
+    const { message } = req.query;
 
     if (
       !message ||
@@ -35,17 +27,16 @@ export async function search(
       });
     }
 
-    const { near, price, open_now } = await extractParameters(message);
+    const { query, near, open_now } = await extractParameters(message);
 
     const response = await withRetry(
       async () => {
         return await fsqDevelopersPlaces.placeSearch({
           'X-Places-Api-Version': '2025-06-17',
           Authorization: `Bearer ${FOURSQUARE_API_KEY}`,
-          query: message,
+          query,
           near,
           open_now,
-          min_price: price,
         });
       },
       {

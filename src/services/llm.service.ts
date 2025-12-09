@@ -79,9 +79,9 @@ export const extractParameters = async (message: string) => {
 
     const parsedResponse = JSON.parse(text) as LLMConvertedParams;
 
-    if (!parsedResponse.query || !parsedResponse.near) {
-      throw new Error('Missing required fields: query or near');
-    }
+    // if (!parsedResponse.query || !parsedResponse.near) {
+    //   throw new Error('Missing required fields: query or near');
+    // }
 
     return parsedResponse;
   } catch (error) {
