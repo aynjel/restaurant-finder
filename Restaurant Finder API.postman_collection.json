@@ -1,98 +1,82 @@
 {
-	"info": {
-		"_postman_id": "cdb4f1d8-c323-48e1-b1e0-e66cf678d745",
-		"name": "Restaurant Finder API",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "45713704",
-		"_collection_link": "https://anggi-7400494.postman.co/workspace/Anggi's-Workspace~6a2abc08-37d2-4122-80fa-7f32bbb300f3/collection/45713704-cdb4f1d8-c323-48e1-b1e0-e66cf678d745?action=share&source=collection_link&creator=45713704"
-	},
-	"item": [
-		{
-			"name": "Search Place",
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:3000/api/execute?code=pioneerdevai&message=Find me a restaurant in the Bato Toledo City&near=Toledo City Cebu&price=2",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"execute"
-					],
-					"query": [
-						{
-							"key": "code",
-							"value": "pioneerdevai"
-						},
-						{
-							"key": "message",
-							"value": "Find me a restaurant in the Bato Toledo City"
-						},
-						{
-							"key": "near",
-							"value": "Toledo City Cebu"
-						},
-						{
-							"key": "open_now",
-							"value": "true",
-							"disabled": true
-						},
-						{
-							"key": "price",
-							"value": "2"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "FourSquare Place Search API",
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer HP4NKK1K31F1PPFANYTVRTICLW00XFYGPMMPAVKPADCTO1JT",
-						"type": "text"
-					},
-					{
-						"key": "X-Places-Api-Version",
-						"value": "2025-06-17",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "https://places-api.foursquare.com/places/search?query=Find me a cheap sushi restaurant in downtown Los Angeles that's open now and has at least a 4-star rating.",
-					"protocol": "https",
-					"host": [
-						"places-api",
-						"foursquare",
-						"com"
-					],
-					"path": [
-						"places",
-						"search"
-					],
-					"query": [
-						{
-							"key": "query",
-							"value": "Find me a cheap sushi restaurant in downtown Los Angeles that's open now and has at least a 4-star rating."
-						}
-					]
-				}
-			},
-			"response": []
-		}
-	]
+  "info": {
+    "_postman_id": "cdb4f1d8-c323-48e1-b1e0-e66cf678d745",
+    "name": "Restaurant Finder API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "45713704",
+    "_collection_link": "https://anggi-7400494.postman.co/workspace/Anggi's-Workspace~6a2abc08-37d2-4122-80fa-7f32bbb300f3/collection/45713704-cdb4f1d8-c323-48e1-b1e0-e66cf678d745?action=share&source=collection_link&creator=45713704"
+  },
+  "item": [
+    {
+      "name": "Search Place",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/execute?message=Find me a restaurant in the Bato Toledo City&near=Toledo City Cebu&price=2",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "execute"],
+          "query": [
+            {
+              "key": "message",
+              "value": "Find me a restaurant in the Bato Toledo City"
+            },
+            {
+              "key": "near",
+              "value": "Toledo City Cebu"
+            },
+            {
+              "key": "open_now",
+              "value": "true",
+              "disabled": true
+            },
+            {
+              "key": "price",
+              "value": "2"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "FourSquare Place Search API",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer HP4NKK1K31F1PPFANYTVRTICLW00XFYGPMMPAVKPADCTO1JT",
+            "type": "text"
+          },
+          {
+            "key": "X-Places-Api-Version",
+            "value": "2025-06-17",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://places-api.foursquare.com/places/search?query=Find me a cheap sushi restaurant in downtown Los Angeles that's open now and has at least a 4-star rating.",
+          "protocol": "https",
+          "host": ["places-api", "foursquare", "com"],
+          "path": ["places", "search"],
+          "query": [
+            {
+              "key": "query",
+              "value": "Find me a cheap sushi restaurant in downtown Los Angeles that's open now and has at least a 4-star rating."
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
 }

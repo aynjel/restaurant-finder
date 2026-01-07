@@ -67,9 +67,6 @@ FOURSQUARE_API_KEY=your_foursquare_api_key_here
 
 # Optional: API Keys
 OPENAI_API_KEY=your_openai_api_key_here
-
-# Optional: Access Code (defaults to 'pioneerdevai')
-REQUIRED_CODE=pioneerdevai
 ```
 
 ### 2. Configure Environment Variables
@@ -79,7 +76,6 @@ Edit the `.env` file and set your configuration:
 - `PORT` - Server port (default: 3000)
 - `FOURSQUARE_API_KEY` - Your Foursquare Places API key (required for restaurant search)
 - `OPENAI_API_KEY` - Your OpenAI API key (optional, currently not used in the implementation)
-- `REQUIRED_CODE` - Access code for API authentication (optional, defaults to `pioneerdevai`)
 
 **Getting API Keys:**
 
@@ -191,7 +187,6 @@ Search for restaurants using the Foursquare Places API. This endpoint queries th
 
 - `message` (required) - Search query term (e.g., "sushi", "pizza", "italian restaurant")
 - `near` (required) - Location to search near (e.g., "downtown Los Angeles", "New York", "San Francisco")
-- `code` (required) - Access code: `pioneerdevai` (or the value set in `REQUIRED_CODE` environment variable)
 - `price` (optional) - Price level filter: `1` (cheap), `2` (moderate), `3` (expensive), `4` (very expensive)
 - `open_now` (optional) - Filter for restaurants currently open: `true` or `false`
 
@@ -225,13 +220,13 @@ Search for restaurants using the Foursquare Places API. This endpoint queries th
 
 ```bash
 # Local development - Basic search
-curl "http://localhost:3000/api/restaurants?message=sushi&near=downtown%20Los%20Angeles&code=pioneerdevai"
+curl "http://localhost:3000/api/restaurants?message=sushi&near=downtown%20Los%20Angeles"
 
 # Local development - With optional filters
-curl "http://localhost:3000/api/restaurants?message=pizza&near=New%20York&code=pioneerdevai&price=2&open_now=true"
+curl "http://localhost:3000/api/restaurants?message=pizza&near=New%20York&price=2&open_now=true"
 
 # Production (Vercel)
-curl "https://restaurant-finder-jade.vercel.app/api/restaurants?message=sushi&near=downtown%20Los%20Angeles&code=pioneerdevai"
+curl "https://restaurant-finder-jade.vercel.app/api/restaurants?message=sushi&near=downtown%20Los%20Angeles"
 ```
 
 **Browser Example:**
@@ -239,7 +234,7 @@ curl "https://restaurant-finder-jade.vercel.app/api/restaurants?message=sushi&ne
 You can also access this endpoint directly in your browser:
 
 ```
-https://restaurant-finder-jade.vercel.app/api/restaurants?message=sushi&near=downtown%20Los%20Angeles&code=pioneerdevai
+https://restaurant-finder-jade.vercel.app/api/restaurants?message=sushi&near=downtown%20Los%20Angeles
 ```
 
 **Error Responses:**
